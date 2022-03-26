@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 3 lá</title>
+
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-4">
+                <img src="./img/red_joker.png" id="img1" alt="img" class=" img-thumbnail"/>
+            </div>
+            <div class="col-4">
+                <img src="./img/red_joker.png" id="img2" alt="img" class=" img-thumbnail"/>
+            </div>
+            <div class="col-4">
+                <img src="./img/red_joker.png" id="img3" alt="img" class=" img-thumbnail"/>
+            </div>
+        </div>
+        <div class="mt-3 text-center">
+            <button class="btn btn-primary" onclick="displayImg(), linkValueImg()" id="btnRandom"> Rút bài </button>
+        </div>
+        <div class="mt-3 text-center">
+            <div>
+                <h4>Điểm của bạn là: <span id="diem">0 nút</span></h4>
+            </div>
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        /*Đề bài: Chơi bài cào 3 lá
+            - Có 52 thẻ bài tương đương với 52 hình ảnh.
+            - Không phân biệt cơ, rô, chuồng, bích.
+            - Tổng 3 lá là 10 || 20 || 30 là bù.
+            - Tổng 3 lá lấy phần dư của ba lá đó ra số nút.
+        */
+
+        //dòng này dùng map object
+       const valueObj = new Map([["ace", 1],["jack", 10],["king", 10],["queen", 10],["2", 2],["3", 3],
+           ["4", 4],["5", 5],["6", 6],["7", 7],["8", 8],["9", 9],["10", 10],]);
+        
+        //dòng dưới này sử dụng spread operator
+       let valueKey = [...valueObj.keys()];
+       
+       //dưới đây là mảng thuộc tính thẻ bài
+       let imgArr = new Array();
+       imgArr[0]="clubs";
+       imgArr[1]="diamonds";
+       imgArr[2]="hearts";
+       imgArr[3]="spades";
+
+       //hàm này để random tạo src hình ảnh
+       const showImg = () => {
+           let randomValue = Math.floor(Math.random() * 13);
+           let randomImg = Math.floor(Math.random() * 4);
+           return `img/${valueKey[randomValue]}_of_${imgArr[randomImg]}.png`;
+        //    console.log(`img/${valueKey[randomValue]}_of_${imgArr[randomImg]}.png`);
+          
+       }
+        let picture1;
+        let picture2;
+        let picture3;
+       //hàm này dùng để hiển thị ảnh đã random lên web
+       const displayImg = () => {
+           picture1 = showImg();
+           picture2 = showImg();
+           picture3 = showImg();
+           document.getElementById("img1").src = picture1;
+           document.getElementById("img2").src = picture2;
+           document.getElementById("img3").src = picture3;
+       }
+
+       //hàm này kết hợp giá trị theo lá bài
+       const linkValueImg = () => {
+           //ở đây xử lý tách chuỗi thành mảng
+            let arr1 = picture1.replace("img/"," ").replace("_of_"," ").replace(".png"," ").split(" ");
+            let arr2 = picture2.replace("img/"," ").replace("_of_"," ").replace(".png"," ").split(" ");
+            let arr3 = picture3.replace("img/"," ").replace("_of_"," ").replace(".png"," ").split(" ");
+            
+            //card-1
+            let diem1=arr1[1];
+            if(diem1 == "jack" || diem1 == "king" || diem1 == "queen"){
+                console.log(diem1 = 10);
+            }
+            else if(diem1 == "ace"){
+                console.log(diem1 = 1);
+            }
+            else {
+                console.log(diem1);
+            }
+
+            //card-2
+            let diem2 = arr2[1];
+            if(diem2 == "jack" || diem2 == "king" || diem2 == "queen"){
+                console.log(diem2 = 10);
+            }
+            else if(diem2 == "ace"){
+                console.log(diem2 = 1);
+            }
+            else {
+                console.log(diem2);
+            }
+
+            //card-3
+            let diem3 = arr3[1];
+            if(diem3 == "jack" || diem3 == "king" || diem3 == "queen"){
+                console.log(diem3 = 10);
+            }
+            else if(diem3 == "ace"){
+                console.log(diem3 = 1);
+            }
+            else {
+                console.log(diem3);
+            }
+            
+            //xử lý điểm lên web
+            let result;
+            let total = (parseInt(diem1)+parseInt(diem2)+parseInt(diem3))%10;
+            
+            if(["jack","king","queen"].includes(arr1[1]) && ["jack","king","queen"].includes(arr2[1]) && ["jack","king","queen"].includes(arr3[1]))
+            {
+                result = `ba cào`;
+            }
+            else{
+                if(total == 0){
+                    result = `bù nút`;
+                }
+                else{
+                    result = `${total} nút`;
+                }
+            }
+            document.getElementById("diem").innerText = result;
+
+       }
+       
+       
+    </script>
+</body>
+</html>
